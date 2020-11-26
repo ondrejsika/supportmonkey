@@ -8,3 +8,6 @@ docker-push:
 	docker push ondrejsika/supportmonkey
 
 docker: docker-build docker-push
+
+helm-package:
+	helm package ./helm/supportmonkey
