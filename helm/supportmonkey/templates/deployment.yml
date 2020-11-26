@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    release: {{ .Release.Name }}
+spec:
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: supportmonkey
+          image: ondrejsika/supportmonkey
+          args:
+            - -from
+            - {{ required "Require .Values.from" .Values.from }}
+            - -to
+            - {{ required "Require .Values.to" .Values.to }}
+            - -smtp-host
+            - {{ required "Require .Values.smtpHost" .Values.smtpHost }}
+            - -smtp-port
+            - "{{ required "Require .Values.smtpPort" .Values.smtpPort }}"
+            - -password
+            - {{ required "Require .Values.password" .Values.password }}
+            {{ if .Values.debug }}
+            - -debug
+            {{ end}}
+          resources:
+            requests:
+              cpu: 15m
+              memory: 15Mi
+            limits:
+              memory: 20Mi
+              cpu: 20m

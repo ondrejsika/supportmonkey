@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Send random email to support
+name: supportmonkey
+version: 0.1.0

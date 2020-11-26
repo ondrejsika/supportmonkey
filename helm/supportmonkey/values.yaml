@@ -1,0 +1,9 @@
+# Required
+from:
+to:
+smtpHost:
+password:
+
+# Optional
+debug: false
+smtpPort: "587"
