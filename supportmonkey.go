@@ -23,6 +23,8 @@ func main() {
 	smtpPort := flag.String("smtp-port", "587", "optional")
 	password := flag.String("password", "", "")
 	debug := flag.Bool("debug", false, "optional")
+	subject := flag.String("subject", "", "optional")
+	message := flag.String("message", "", "optional")
 
 	flag.Parse()
 
@@ -63,7 +65,15 @@ func main() {
 		time.Sleep(sleepTime)
 
 		// Send email
-		err := gosendmail.GoSendMail(*smtpHost, *smtpPort, *from, *password, *to, "[supportmonkey] New incident", "This is an example incident from support monkey. --supportmonkey")
+		emailSubject := "[supportmonkey] New incident"
+		if *subject != "" {
+			emailSubject = "[supportmonkey] " + *subject
+		}
+		emailMessage := "This is an example incident from support monkey. --supportmonkey"
+		if *message != "" {
+			emailMessage = *message + " --supportmonkey"
+		}
+		err := gosendmail.GoSendMail(*smtpHost, *smtpPort, *from, *password, *to, emailSubject, emailMessage)
 		if err != nil {
 			panic(err)
 		}

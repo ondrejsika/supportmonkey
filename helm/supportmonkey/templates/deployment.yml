@@ -17,6 +17,7 @@ spec:
       containers:
         - name: supportmonkey
           image: ondrejsika/supportmonkey
+          imagePullPolicy: Always
           args:
             - -from
             - {{ required "Require .Values.from" .Values.from }}
@@ -30,6 +31,14 @@ spec:
             - {{ required "Require .Values.password" .Values.password }}
             {{ if .Values.debug }}
             - -debug
+            {{ end}}
+            {{ if .Values.subject }}
+            - -subject
+            - "{{ .Values.subject }}"
+            {{ end}}
+            {{ if .Values.message }}
+            - -message
+            - "{{ .Values.message }}"
             {{ end}}
           resources:
             requests:

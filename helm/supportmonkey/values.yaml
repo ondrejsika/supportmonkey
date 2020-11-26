@@ -7,3 +7,5 @@ password:
 # Optional
 debug: false
 smtpPort: "587"
+subject:
+message:
